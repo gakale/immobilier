@@ -15,19 +15,23 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('phone');
-            $table->foreignId('property_id')->constrained();
-            $table->foreignId('user_id')->constrained();
-            $table->date('start_date');
-            $table->date('end_date');
-            $table->integer('rent_amount');
-            $table->integer('security_deposit');
+            $table->string('password');
+            $table->string('phone')->nullable();
+            $table->unsignedBigInteger('property_id')->nullable();
+            $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade ')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->nullable();
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
+            $table->integer('rent_amount')->nullable();
+            $table->integer('security_deposit')->nullable();
             $table->string('status')->default('pending');
-            $table->string('slug')->unique();
-            $table->string('image');
+            $table->string('slug')->unique()->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.

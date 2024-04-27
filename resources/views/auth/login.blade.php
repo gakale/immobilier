@@ -118,50 +118,53 @@ Main Content START -->
 								</a>
 								<!-- Title -->
 								<h1 class="mb-2 h3">Welcome back</h1>
-								<p class="mb-0">New here?<a href="{{ route('register') }}"> Create an account</a></p>
+								<p class="mb-0">New here?<a href="{{ route('showRegistrationForm') }}"> Create an account</a></p>
 
 								<!-- Form START -->
-								<form class="mt-4 text-start" method="post" action="{{ route('login') }}">
+                                <form class="mt-4 text-start" method="post" action="{{ route('login') }}">
                                     @csrf
-									<!-- Email -->
-									<div class="mb-3">
-										<label class="form-label">Enter email id</label>
-										<input type="email" class="form-control" name="email">
-									</div>
-									<!-- Password -->
-									<div class="mb-3 position-relative">
-										<label class="form-label">Enter password</label>
-										<input class="form-control fakepassword" type="password" id="psw-input" name="password">
-										<span class="p-0 mt-3 position-absolute top-50 end-0 translate-middle-y">
-											<i class="p-2 cursor-pointer fakepasswordicon fas fa-eye-slash"></i>
-										</span>
-									</div>
-									<!-- Remember me -->
-									<div class="mb-3 d-sm-flex justify-content-between">
-										<div>
-											<input type="checkbox" class="form-check-input" id="rememberCheck">
-											<label class="form-check-label" for="rememberCheck">Remember me?</label>
-										</div>
-										<a href="forgot-password.html">Forgot password?</a>
-									</div>
-									<!-- Button -->
-									<div><button type="submit" class="mb-0 btn btn-primary w-100">Login</button></div>
+                                    <!-- Email -->
+                                    <div class="mb-3">
+                                        <label class="form-label">Enter email id</label>
+                                        <input type="email" class="form-control @error('email') is-invalid @enderror" name="email">
+                                        @error('email')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <!-- Password -->
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label">Enter password</label>
+                                        <input class="form-control fakepassword @error('password') is-invalid @enderror" type="password" id="psw-input" name="password">
+                                        @error('password')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <!-- Remember me -->
+                                    <div class="mb-3 d-sm-flex justify-content-between">
+                                        <div>
+                                            <input type="checkbox" class="form-check-input" id="rememberCheck">
+                                            <label class="form-check-label" for="rememberCheck">Remember me?</label>
+                                        </div>
+                                        <a href="forgot-password.html">Forgot password?</a>
+                                    </div>
+                                    <!-- Button -->
+                                    <div><button type="submit" class="mb-0 btn btn-primary w-100">Login</button></div>
 
-									<!-- Divider -->
-									<div class="my-4 position-relative">
-										<hr>
-										<p class="px-2 small bg-mode position-absolute top-50 start-50 translate-middle">Or sign in with</p>
-									</div>
+                                    <!-- Divider -->
+                                    <div class="my-4 position-relative">
+                                        <hr>
+                                        <p class="px-2 small bg-mode position-absolute top-50 start-50 translate-middle">Or sign in with</p>
+                                    </div>
 
-									<!-- Google and facebook button -->
-									<div class="gap-3 vstack">
-										<a href="#" class="mb-0 btn btn-light"><i class="fab fa-fw fa-google text-google-icon me-2"></i>Sign in with Google</a>
-										<a href="#" class="mb-0 btn btn-light"><i class="fab fa-fw fa-facebook-f text-facebook me-2"></i>Sign in with Facebook</a>
-									</div>
+                                    <!-- Google and facebook button -->
+                                    <div class="gap-3 vstack">
+                                        <a href="#" class="mb-0 btn btn-light"><i class="fab fa-fw fa-google text-google-icon me-2"></i>Sign in with Google</a>
+                                        <a href="#" class="mb-0 btn btn-light"><i class="fab fa-fw fa-facebook-f text-facebook me-2"></i>Sign in with Facebook</a>
+                                    </div>
 
-									<!-- Copyright -->
-									<div class="mt-3 text-center text-primary-hover text-body"> Copyrights ©2023 Booking. Build by <a href="https://www.webestica.com/" class="text-body">Webestica</a>. </div>
-								</form>
+                                    <!-- Copyright -->
+                                    <div class="mt-3 text-center text-primary-hover text-body"> Copyrights ©2023 Booking. Build by <a href="https://www.webestica.com/" class="text-body">Webestica</a>. </div>
+                                </form>
 								<!-- Form END -->
 							</div>
 						</div>

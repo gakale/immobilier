@@ -119,52 +119,69 @@ Main Content START -->
 								</a>
 								<!-- Title -->
 								<h1 class="mb-2 h3">Create new account</h1>
-								<p class="mb-0">Already a member?<a href="{{ route('login') }}"> Log in</a></p>
+								<p class="mb-0">Already a member?<a href="{{ route('showLoginForm') }}"> Log in</a></p>
 
 								<!-- Form START -->
-								<form class="mt-4 text-start" method="POST" action="{{ route('register') }}">
+                                <form class="mt-4 text-start" method="POST" action="{{ route('register') }}">
                                     @csrf
-									<!-- Email -->
-									<div class="mb-3">
-										<label class="form-label">Enter email id</label>
-										<input name="email" type="email" class="form-control">
-									</div>
-									<!-- Password -->
-									<div class="mb-3 position-relative">
-										<label class="form-label">Enter password</label>
-										<input class="form-control fakepassword" type="password" id="psw-input">
-										<span class="p-0 mt-3 position-absolute top-50 end-0 translate-middle-y">
-											<i class="p-2 cursor-pointer fakepasswordicon fas fa-eye-slash"></i>
-										</span>
-									</div>
-									<!-- Confirm Password -->
-									<div class="mb-3">
-										<label class="form-label">Confirm Password</label>
-										<input name="password" type="password" class="form-control">
-									</div>
-									<!-- Remember me -->
-									<div class="mb-3">
-										<input type="checkbox" class="form-check-input" id="rememberCheck">
-										<label class="form-check-label" for="rememberCheck">Keep me signed in</label>
-									</div>
-									<!-- Button -->
-									<div><button type="submit" class="mb-0 btn btn-primary w-100">Sign up</button></div>
+                                      <!-- Name -->
+                                      <div class="mb-3">
+                                        <label class="form-label">Enter Name</label>
+                                        <input name="name" type="text" class="form-control @error('name') is-invalid @enderror">
+                                        @error('name')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <!-- Email -->
+                                    <div class="mb-3">
+                                        <label class="form-label">Enter email id</label>
+                                        <input name="email" type="email" class="form-control @error('email') is-invalid @enderror">
+                                        @error('email')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <!-- Password -->
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label">Enter password</label>
+                                        <input class="form-control fakepassword @error('password') is-invalid @enderror" type="password" id="psw-input" name="password">
+                                        @error('password')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                        <span class="p-0 mt-3 position-absolute top-50 end-0 translate-middle-y">
+                                            <i class="p-2 cursor-pointer fakepasswordicon fas fa-eye-slash"></i>
+                                        </span>
+                                    </div>
+                                    <!-- Confirm Password -->
+                                    <div class="mb-3">
+                                        <label class="form-label">Confirm Password</label>
+                                        <input name="password_confirmation" type="password" class="form-control @error('password_confirmation') is-invalid @enderror">
+                                        @error('password_confirmation')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <!-- Remember me -->
+                                    <div class="mb-3">
+                                        <input type="checkbox" class="form-check-input" id="rememberCheck">
+                                        <label class="form-check-label" for="rememberCheck">Keep me signed in</label>
+                                    </div>
+                                    <!-- Button -->
+                                    <div><button type="submit" class="mb-0 btn btn-primary w-100">Sign up</button></div>
 
-									<!-- Divider -->
-									<div class="my-4 position-relative">
-										<hr>
-										<p class="px-1 small position-absolute top-50 start-50 translate-middle bg-mode px-sm-2">Or sign in with</p>
-									</div>
+                                    <!-- Divider -->
+                                    <div class="my-4 position-relative">
+                                        <hr>
+                                        <p class="px-1 small position-absolute top-50 start-50 translate-middle bg-mode px-sm-2">Or sign in with</p>
+                                    </div>
 
-									<!-- Google and facebook button -->
-									<div class="gap-3 vstack">
-										<a href="#" class="mb-0 btn btn-light"><i class="fab fa-fw fa-google text-google-icon me-2"></i>Sign in with Google</a>
-										<a href="#" class="mb-0 btn btn-light"><i class="fab fa-fw fa-facebook-f text-facebook me-2"></i>Sign in with Facebook</a>
-									</div>
+                                    <!-- Google and facebook button -->
+                                    <div class="gap-3 vstack">
+                                        <a href="#" class="mb-0 btn btn-light"><i class="fab fa-fw fa-google text-google-icon me-2"></i>Sign in with Google</a>
+                                        <a href="#" class="mb-0 btn btn-light"><i class="fab fa-fw fa-facebook-f text-facebook me-2"></i>Sign in with Facebook</a>
+                                    </div>
 
-									<!-- Copyright -->
-									<div class="mt-3 text-center text-primary-hover text-body"> Copyrights ©2023 Booking. Build by <a href="https://www.webestica.com/" class="text-body">Webestica</a>. </div>
-								</form>
+                                    <!-- Copyright -->
+                                    <div class="mt-3 text-center text-primary-hover text-body"> Copyrights ©2023 Booking. Build by <a href="https://www.webestica.com/" class="text-body">Webestica</a>. </div>
+                                </form>
 								<!-- Form END -->
 							</div>
 						</div>

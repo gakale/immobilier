@@ -4,44 +4,63 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Tenant; // Assurez-vous d'avoir un modèle Tenant
+use Illuminate\Support\Facades\Validator; // Utilisez cette classe à la place
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class TenantController extends Controller
 {
+    public function showRegistrationForm()
+    {
+        return view('auth.register');
+    }
+
     public function register(Request $request)
     {
-        $tenant = new Tenant;
-        $tenant->name = $request->name;
-        $tenant->email = $request->email;
-        $tenant->password = bcrypt($request->password);
-        $tenant->save();
+        $validator = $this->validator($request->all());
 
-        return response()->json(['message' => 'Locataire enregistré avec succès'], 201);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $tenant = $this->create($request->all());
+        Auth::login($tenant);
+        return redirect()->route('index');
+    }
+
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:tenants'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+        ]);
+    }
+
+    protected function create(array $data)
+    {
+        $tenant = Tenant::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
+
+        return $tenant;
+    }
+
+    public function showLoginForm()
+    {
+        return view('auth.login');
     }
 
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials)) {
-            return response()->json(['message' => 'Connecté avec succès'], 200);
-        } else {
-            return response()->json(['message' => 'Échec de la connexion'], 401);
+        if (Auth::guard('tenant')->attempt($credentials)) {
+            return redirect()->route('Users.index');
         }
-    }
 
-    public function update(Request $request)
-    {
-        $tenant = Auth::user();
-        $tenant->update($request->all());
-
-        return response()->json(['message' => 'Informations mises à jour avec succès'], 200);
-    }
-
-    public function logout()
-    {
-        Auth::logout();
-
-        return response()->json(['message' => 'Déconnecté avec succès'], 200);
+        return back()->withErrors(['email' => 'Les informations de connexion ne sont pas valides.']);
     }
 }
