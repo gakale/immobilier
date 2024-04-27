@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('security_deposit');
             $table->string('status')->default('pending');
             $table->string('slug')->unique();
+            $table->string('image');
             $table->timestamps();
         });
     }
