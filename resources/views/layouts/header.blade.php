@@ -6,12 +6,12 @@
             <a class="navbar-brand" href="index-2.html">
                 <img
                     class="light-mode-item navbar-brand-item"
-                    src="assets/images/logo.svg"
+                    src="{{ asset('assets/images/logo.svg') }}"
                     alt="logo"
                 />
                 <img
                     class="dark-mode-item navbar-brand-item"
-                    src="assets/images/logo-light.svg"
+                    src="{{ asset('assets/images/logo-light.svg') }}"
                     alt="logo"
                 />
             </a>
@@ -19,7 +19,7 @@
 
             <!-- Responsive navbar toggler -->
             <button
-                class="navbar-toggler ms-auto mx-3 me-md-0 p-0 p-sm-2"
+                class="p-0 mx-3 navbar-toggler ms-auto me-md-0 p-sm-2"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#navbarCollapse"
@@ -733,13 +733,13 @@
 
             <!-- Profile and Notification START -->
             <ul
-                class="nav flex-row align-items-center list-unstyled ms-xl-auto"
+                class="flex-row nav align-items-center list-unstyled ms-xl-auto"
             >
                 <!-- Notification dropdown START -->
                 <li class="nav-item ms-0 ms-md-3 dropdown">
                     <!-- Notification button -->
                     <a
-                        class="nav-link p-0"
+                        class="p-0 nav-link"
                         href="#"
                         role="button"
                         data-bs-toggle="dropdown"
@@ -753,12 +753,12 @@
 
                     <!-- Notification dropdown menu START -->
                     <div
-                        class="dropdown-menu dropdown-animation dropdown-menu-end dropdown-menu-size-md p-0 shadow-lg"
+                        class="p-0 shadow-lg dropdown-menu dropdown-animation dropdown-menu-end dropdown-menu-size-md"
                     >
-                        <div class="card bg-transparent">
+                        <div class="bg-transparent card">
                             <!-- Card header -->
                             <div
-                                class="card-header bg-transparent d-flex justify-content-between align-items-center border-bottom"
+                                class="bg-transparent card-header d-flex justify-content-between align-items-center border-bottom"
                             >
                                 <h6 class="m-0">
                                     Notifications
@@ -771,15 +771,15 @@
                             </div>
 
                             <!-- Card body START -->
-                            <div class="card-body p-0">
+                            <div class="p-0 card-body">
                                 <ul
-                                    class="list-group list-group-flush list-unstyled p-2"
+                                    class="p-2 list-group list-group-flush list-unstyled"
                                 >
                                     <!-- Notification item -->
                                     <li>
                                         <a
                                             href="#"
-                                            class="list-group-item list-group-item-action rounded notif-unread border-0 mb-1 p-3"
+                                            class="p-3 mb-1 border-0 rounded list-group-item list-group-item-action notif-unread"
                                         >
                                             <h6 class="mb-2">
                                                 New! Booking flights
@@ -798,7 +798,7 @@
                                     <li>
                                         <a
                                             href="#"
-                                            class="list-group-item list-group-item-action rounded border-0 mb-1 p-3"
+                                            class="p-3 mb-1 border-0 rounded list-group-item list-group-item-action"
                                         >
                                             <h6 class="mb-2">
                                                 Sunshine saving are here
@@ -814,11 +814,11 @@
 
                             <!-- Card footer -->
                             <div
-                                class="card-footer bg-transparent text-center border-top"
+                                class="text-center bg-transparent card-footer border-top"
                             >
                                 <a
                                     href="#"
-                                    class="btn btn-sm btn-link mb-0 p-0"
+                                    class="p-0 mb-0 btn btn-sm btn-link"
                                     >See all incoming activity</a
                                 >
                             </div>
@@ -832,7 +832,7 @@
                 <li class="nav-item ms-3 dropdown">
                     <!-- Avatar -->
                     <a
-                        class="avatar avatar-xs p-0"
+                        class="p-0 avatar avatar-xs"
                         href="#"
                         id="profileDropdown"
                         role="button"
@@ -850,7 +850,7 @@
 
                     <!-- Profile dropdown START -->
                     <ul
-                        class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3"
+                        class="pt-3 shadow dropdown-menu dropdown-animation dropdown-menu-end"
                         aria-labelledby="profileDropdown"
                     >
                         <!-- Profile info -->
@@ -859,16 +859,16 @@
                                 <!-- Avatar -->
                                 <div class="avatar me-3">
                                     <img
-                                        class="avatar-img rounded-circle shadow"
+                                        class="shadow avatar-img rounded-circle"
                                         src="assets/images/avatar/01.jpg"
                                         alt="avatar"
                                     />
                                 </div>
                                 <div>
-                                    <a class="h6 mt-2 mt-sm-0" href="#"
+                                    <a class="mt-2 h6 mt-sm-0" href="#"
                                         >Lori Ferguson</a
                                     >
-                                    <p class="small m-0">
+                                    <p class="m-0 small">
                                         example@gmail.com
                                     </p>
                                 </div>
@@ -918,12 +918,12 @@
                         <!-- Dark mode options START -->
                         <li>
                             <div
-                                class="nav-pills-primary-soft theme-icon-active d-flex justify-content-between align-items-center p-2 pb-0"
+                                class="p-2 pb-0 nav-pills-primary-soft theme-icon-active d-flex justify-content-between align-items-center"
                             >
                                 <span>Mode:</span>
                                 <button
                                     type="button"
-                                    class="btn btn-link nav-link text-primary-hover mb-0 p-0"
+                                    class="p-0 mb-0 btn btn-link nav-link text-primary-hover"
                                     data-bs-theme-value="light"
                                     data-bs-toggle="tooltip"
                                     data-bs-placement="top"
@@ -945,7 +945,7 @@
                                 </button>
                                 <button
                                     type="button"
-                                    class="btn btn-link nav-link text-primary-hover mb-0 p-0"
+                                    class="p-0 mb-0 btn btn-link nav-link text-primary-hover"
                                     data-bs-theme-value="dark"
                                     data-bs-toggle="tooltip"
                                     data-bs-placement="top"
@@ -970,7 +970,7 @@
                                 </button>
                                 <button
                                     type="button"
-                                    class="btn btn-link nav-link text-primary-hover mb-0 p-0 active"
+                                    class="p-0 mb-0 btn btn-link nav-link text-primary-hover active"
                                     data-bs-theme-value="auto"
                                     data-bs-toggle="tooltip"
                                     data-bs-placement="top"
@@ -1000,7 +1000,7 @@
 
                 <!-- Button -->
                 <li class="nav-item ms-3 d-none d-sm-block">
-                    <a class="btn btn-sm btn-primary-soft mb-0" href="#"
+                    <a class="mb-0 btn btn-sm btn-primary-soft" href="#"
                         ><i class="bi bi-lightning-charge"></i> Upgrade
                         now</a
                     >

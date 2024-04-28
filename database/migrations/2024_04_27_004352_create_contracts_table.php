@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('rent_amount');
             $table->integer('security_deposit');
             $table->string('status')->default('pending');
+            $table->string('image');
             $table->timestamps();
         });
     }

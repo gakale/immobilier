@@ -58,9 +58,41 @@ class TenantController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::guard('tenant')->attempt($credentials)) {
-            return redirect()->route('Users.index');
+            return redirect()->route('profile');
         }
 
         return back()->withErrors(['email' => 'Les informations de connexion ne sont pas valides.']);
+    }
+
+    public function logout()
+    {
+        Auth::guard('tenant')->logout();
+        return redirect()->route('index');
+    }
+
+    public function showDashboard()
+    {
+        $tenant = Auth::guard('tenant')->user();
+        return view('profile.dashboard', compact('tenant'));
+    }
+
+    public function showProfile()
+    {
+        $tenant = Auth::guard('tenant')->user()->name;
+        return view('layouts.details-user', compact('tenant'));
+    }
+
+
+    public function showEditForm()
+    {
+        $tenant = Auth::guard('tenant')->user();
+        return view('profile.settings', compact('tenant'));
+    }
+
+    public function edit(Request $request)
+    {
+        $tenant = Auth::guard('tenant')->user();
+        $tenant->update($request->all());
+        return redirect()->route('profile');
     }
 }

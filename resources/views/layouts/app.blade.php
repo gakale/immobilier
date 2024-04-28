@@ -4,8 +4,8 @@
 
 <body>
 
-  @include('layouts.header')
-
+@include('layouts.header')
+@include('layouts.details-user')
 
   @yield('content')
 

@@ -102,7 +102,7 @@
         </script>
 
         <!-- Favicon -->
-        <link rel="shortcut icon" href="assets/images/favicon.ico" />
+        <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}" />
 
         <!-- Google Font -->
         <link rel="preconnect" href="https://fonts.googleapis.com/" />
@@ -112,28 +112,26 @@
             href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Poppins:wght@400;500;700&amp;display=swap"
         />
 
-        <!-- Plugins CSS -->
         <link
-            rel="stylesheet"
-            type="text/css"
-            href="assets/vendor/font-awesome/css/all.min.css"
-        />
-        <link
-            rel="stylesheet"
-            type="text/css"
-            href="assets/vendor/bootstrap-icons/bootstrap-icons.css"
-        />
-        <link
-            rel="stylesheet"
-            type="text/css"
-            href="assets/vendor/apexcharts/css/apexcharts.css"
-        />
-        <link
-            rel="stylesheet"
-            type="text/css"
-            href="assets/vendor/choices/css/choices.min.css"
-        />
-
+        rel="stylesheet"
+        type="text/css"
+        href="{{ asset('assets/vendor/font-awesome/css/all.min.css') }}"
+    />
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}"
+    />
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="{{ asset('assets/vendor/apexcharts/css/apexcharts.css') }}"
+    />
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="{{ asset('assets/vendor/choices/css/choices.min.css') }}"
+    />
         <!-- Theme CSS -->
-        <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}" />
     </head>

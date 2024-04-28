@@ -23,3 +23,8 @@ Route::get('/showRegistrationForm', [TenantController::class, 'showRegistrationF
 Route::post('/register', [TenantController::class, 'register'])->name('register');
 Route::get('/showLoginForm', [TenantController::class, 'showLoginForm'])->name('showLoginForm');
 Route::post('/login', [TenantController::class, 'login'])->name('login');
+
+Route::get('/profile', [TenantController::class, 'showDashboard'])->name('profile');
+
+Route::get('/profile/edit', [TenantController::class, 'showEditForm'])->name('profile.edit');
+Route::post('/profile/edit', [TenantController::class, 'edit'])->name('profile.edit');
