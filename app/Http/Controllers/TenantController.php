@@ -8,6 +8,10 @@ use App\Models\Tenant; // Assurez-vous d'avoir un modèle Tenant
 use Illuminate\Support\Facades\Validator; // Utilisez cette classe à la place
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+
+use function Pest\Laravel\json;
 
 class TenantController extends Controller
 {
@@ -119,8 +123,91 @@ class TenantController extends Controller
     {
         $tenant = Auth::guard('tenant')->user();
 
-        return redirect()->route('profile');
+        $testmode = true;
+        $url = $testmode ? "https://app.paydunya.com/sandbox-api/v1/checkout-invoice/create" :
+        "https://app.paydunya.com/api/v1/checkout-invoice/create";
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'PAYDUNYA-MASTER-KEY' => config('paydunya.masterKey'),
+            'PAYDUNYA-PRIVATE-KEY' => config('paydunya.privateKey'),
+            'PAYDUNYA-TOKEN' => config('paydunya.token')
+        ])->post($url, [
+            'invoice' => [
+                'items' => [
+                    [
+                        'name' => 'paiement ',
+                        'quantity' => 1,
+                        'unit_price' => $request->input('amount'),
+                        'total_price' => $request->input('amount'),
+                        'description' => 'Paiment de facture ',
+                    ],
+                ],
+                'total_amount' => $request->input('amount'),
+            ],
+            'store' => [
+                'name' => 'imo' // Assurez-vous que cette valeur est correctement définie.
+            ],
+            'custom_data' => [
+                'month' => $request->input('month'),
+                'user_id' => $tenant->name,
+                'email'=> $tenant->email
+
+            ],
+            'actions' => [
+                'cancel_url' => 'https://3a26-154-0-26-81.ngrok-free.app/cancel',
+                "return_url" => 'https://3a26-154-0-26-81.ngrok-free.app/paydunya/webhook',
+                "callback_url" => 'https://3a26-154-0-26-81.ngrok-free.app/verify-payment',
+            ]
+        ]);
+        if ($response->successful()) {
+            $responseData = json_decode($response->getBody(), true);
+
+            // Enregistrer la réponse complète de l'API dans un fichier de log
+            Log::info('Response from PayDunya API: ', [
+                'status' => $response->status(),
+                'headers' => $response->headers(),
+                'body' => $responseData
+            ]);
+            // Rediriger l'utilisateur vers la page de paiement
+            return redirect()->away($responseData['response_text']);
+        } else {
+            // En cas d'échec de la création de la facture, vous pouvez supprimer la transaction créée précédemment
+
+            return response()->json([
+                'success' => false,
+                'error' => 'Failed to create checkout invoice',
+                'status' => $response->status(),
+                'message' => $response->body()
+            ]);
+        }
+
     }
+    public function verifyPayment(Request $request)
+    {
+        Log::info('CinetPay webhook data:', $request->all());
+
+        file_put_contents(__DIR__.'/log.txt', json_encode($request->all(), JSON_PRETTY_PRINT));
+    }
+
+    public function handlePaymentResponse(Request $request)
+    {
+        // Vérifier le hash de la réponse
+
+        // Retourner une vue indiquant que le paiement a été effectué avec succès
+        return json_encode(['status','payement succes']);
+    }
+
+    public function cancel(Request $request)
+    {
+        // Annuler le paiement et rediriger l'utilisateur vers la page d'accueil
+        return json_encode(['status' => 'Payment cancelled']);
+    }
+
+
+
+
+
+
 
 
 }
