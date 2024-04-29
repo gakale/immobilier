@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contract;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use App\Models\Tenant; // Assurez-vous d'avoir un modèle Tenant
 use Illuminate\Support\Facades\Validator; // Utilisez cette classe à la place
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 use function Pest\Laravel\json;
 
@@ -74,12 +76,16 @@ class TenantController extends Controller
         Auth::guard('tenant')->logout();
         return redirect()->route('index');
     }
-
     public function showDashboard()
     {
         $tenant = Auth::guard('tenant')->user();
-        $contract = $tenant->contract; // Suppose que le locataire a une relation avec le contrat
-        return view('profile.dashboard', compact('tenant', 'contract'));
+        $contract = Contract::where('tenant_id', $tenant->id)->first();
+        $rentPayments = Payment::where('tenant_id', $tenant->id)
+            ->where('type_of_payment', 'loyer')
+            ->get();
+        $totalRentPayments = $rentPayments->sum('amount');
+        $totalSecurityDeposit = $contract->security_deposit;
+        return view('profile.dashboard', compact('tenant', 'contract', 'rentPayments', 'totalRentPayments', 'totalSecurityDeposit'));
     }
 
     public function showProfile()
@@ -122,6 +128,7 @@ class TenantController extends Controller
     public function payRent(Request $request)
     {
         $tenant = Auth::guard('tenant')->user();
+        $contract = Contract::where('tenant_id', $tenant->id)->first();
 
         $testmode = true;
         $url = $testmode ? "https://app.paydunya.com/sandbox-api/v1/checkout-invoice/create" :
@@ -149,14 +156,15 @@ class TenantController extends Controller
             ],
             'custom_data' => [
                 'month' => $request->input('month'),
-                'user_id' => $tenant->name,
-                'email'=> $tenant->email
+                'tenant_id' => $tenant->id,
+                'email'=> $tenant->email,
+                'property_id'=> $contract->property->id,
 
             ],
             'actions' => [
-                'cancel_url' => 'https://3a26-154-0-26-81.ngrok-free.app/cancel',
-                "return_url" => 'https://3a26-154-0-26-81.ngrok-free.app/paydunya/webhook',
-                "callback_url" => 'https://3a26-154-0-26-81.ngrok-free.app/verify-payment',
+                'cancel_url' => 'https://f38f-41-66-29-126.ngrok-free.app/cancel',
+                "return_url" => 'https://f38f-41-66-29-126.ngrok-free.app/paydunya/webhook',
+                "callback_url" => 'https://f38f-41-66-29-126.ngrok-free.app/verify-payment',
             ]
         ]);
         if ($response->successful()) {
@@ -184,9 +192,51 @@ class TenantController extends Controller
     }
     public function verifyPayment(Request $request)
     {
-        Log::info('CinetPay webhook data:', $request->all());
+        Log::info('paydundy webhook data:', $request->all());
 
         file_put_contents(__DIR__.'/log.txt', json_encode($request->all(), JSON_PRETTY_PRINT));
+        Log::info('Verify Payment Request', [
+            'request_data' => $request->all(),
+        ]);
+
+        $data = $request->all();
+        $month = $data['data']['custom_data']['month'];
+
+        $tenant= $data['data']['custom_data']['tenant_id'];
+        $montant = $data['data']['invoice']['total_amount'];
+
+        $reference = $data['data']['invoice']['token'];
+        
+        $property= $data['data']['custom_data']['property_id'];
+        
+        $dateDay = Carbon::now();
+        $datePaidThrough = $dateDay->addMonths($month); // Ajoute le nombre de mois à la date d'aujourd'hui
+        $payment = new Payment([
+            'property_id'=> $property,
+            'tenant_id'=> $tenant,
+            'type_of_payment'=> 'loyer',
+            'amount'=>$montant,
+            'payment_date'=>$dateDay,
+            'reference'=> $reference,
+            'due_date' => $datePaidThrough, // Utilise la date avec les mois ajoutés
+            'status'=> 'completed',
+            'slug'=> 'facture'. $property. $dateDay,
+            'paid_through'=> $datePaidThrough, // Utilise la date avec les mois ajoutés
+        ]);
+        $payment->save();
+        
+        Log::info('Payment verified and contract updated', [
+            'tenant_id' => $tenant,
+        ]);
+        // je voulais recuéoré la date de fin qui est dans le contract et d'ajouter le nmbre de mois d'avance que l'utilisateur a payer
+            $contract = Contract::where('tenant_id', $tenant)->first();
+            $contract->end_date = Carbon::parse($contract->end_date)->addMonths($month);
+            $contract->save();
+        
+        // Vérifier si le paiement a été effectué avec succès
+            Log::info('contract update',[
+                'contract' => $contract,
+            ]);
     }
 
     public function handlePaymentResponse(Request $request)
