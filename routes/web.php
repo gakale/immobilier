@@ -31,3 +31,11 @@ Route::post('/profile/edit', [TenantController::class, 'edit'])->name('profile.e
 Route::get('/profile/rent', [TenantController::class, 'rent'])->name('profile.rent');
 Route::get('/profile/paid/rent', [TenantController::class, 'paid'])->name('profile.paid.rent');
 Route::post('/profile/rent', [TenantController::class, 'payRent'])->name('profile.pay.rent');
+Route::post('/verify-payment', [TenantController::class, 'verifyPayment'])->name('payment.verify')->withoutMiddleware(
+    [\App\Http\Middleware\VerifyCsrfToken::class]
+    );
+  Route::get('/verify-payment', [TenantController::class, 'verifyPayment']);
+
+  Route::get('/paydunya/webhook', [App\Http\Controllers\PaymentController::class, 'handlePaymentResponse'])->name('payment.callback');
+
+  Route::get('/cancel', [App\Http\Controllers\PaymentController::class, 'cancel'])->name('payement.cancel');
