@@ -28,3 +28,6 @@ Route::get('/profile', [TenantController::class, 'showDashboard'])->name('profil
 
 Route::get('/profile/edit', [TenantController::class, 'showEditForm'])->name('profile.edit');
 Route::post('/profile/edit', [TenantController::class, 'edit'])->name('profile.edit');
+Route::get('/profile/rent', [TenantController::class, 'rent'])->name('profile.rent');
+Route::get('/profile/paid/rent', [TenantController::class, 'paid'])->name('profile.paid.rent');
+Route::post('/profile/rent', [TenantController::class, 'payRent'])->name('profile.pay.rent');

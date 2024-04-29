@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contract;
 use Illuminate\Http\Request;
 use App\Models\Tenant; // Assurez-vous d'avoir un modèle Tenant
 use Illuminate\Support\Facades\Validator; // Utilisez cette classe à la place
@@ -73,13 +74,15 @@ class TenantController extends Controller
     public function showDashboard()
     {
         $tenant = Auth::guard('tenant')->user();
-        return view('profile.dashboard', compact('tenant'));
+        $contract = $tenant->contract; // Suppose que le locataire a une relation avec le contrat
+        return view('profile.dashboard', compact('tenant', 'contract'));
     }
 
     public function showProfile()
     {
         $tenant = Auth::guard('tenant')->user()->name;
-        return view('layouts.details-user', compact('tenant'));
+        $contract = $tenant->contract; // Suppose que le locataire a une relation avec le contrat
+        return view('layouts.details-user', compact('tenant', 'contract'));
     }
 
 
@@ -95,4 +98,29 @@ class TenantController extends Controller
         $tenant->update($request->all());
         return redirect()->route('profile');
     }
+
+    public function rent()
+    {
+        $tenant = Auth::guard('tenant')->user();
+        $contract = Contract::where('tenant_id', $tenant->id)->first();
+
+        return view('profile.rent', compact('tenant', 'contract'));
+    }
+
+    public function paid()
+    {
+        $tenant = Auth::guard('tenant')->user();
+        $contract = Contract::where('tenant_id', $tenant->id)->first();
+
+        return view('profile.paid-rent', compact('tenant', 'contract'));
+    }
+
+    public function payRent(Request $request)
+    {
+        $tenant = Auth::guard('tenant')->user();
+
+        return redirect()->route('profile');
+    }
+
+
 }
