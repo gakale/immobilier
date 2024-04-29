@@ -7,7 +7,7 @@
                     <a href="index-2.html">
                         <img
                             class="h-30px"
-                            src="assets/images/logo-light.svg"
+                            src="{{ asset('assets/images/logo-light.svg') }}"
                             alt="logo"
                         />
                     </a>

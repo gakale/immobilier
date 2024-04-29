@@ -71,10 +71,10 @@
 											<input type="text" class="form-control" value="222 555 666" placeholder="Enter your mobile number">
 										</div>
 										<!-- Location -->
-										<div class="mb-3">
-											<label class="form-label">Location</label>
-											<input class="form-control" type="text" value="New Hampshire">
-										</div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Location</label>
+                                            <input class="form-control" type="text" value="{{$tenant->contract->property->name}}">
+                                        </div>
 										<!-- Birthday -->
 										<div>
 											<label class="form-label">Birthday</label>

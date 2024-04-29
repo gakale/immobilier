@@ -30,7 +30,8 @@ class Tenant extends Authenticatable
 
     public function property()
     {
-        return $this->belongsTo(Property::class);
+
+        return $this->hasMany(Property::class);
     }
 
     public function payments()
@@ -41,5 +42,10 @@ class Tenant extends Authenticatable
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function contracts()
+    {
+        return $this->hasOne(Contract::class);
     }
 }

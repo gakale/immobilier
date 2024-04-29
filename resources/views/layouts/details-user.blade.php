@@ -71,7 +71,7 @@
                             <li class="nav-item">
                                 <a
                                     class="nav-link"
-                                    href="agent-listings.html"
+                                    href="{{ route('profile.rent') }}"
                                     ><i
                                         class="bi bi-journals fa-fw me-1"
                                     ></i

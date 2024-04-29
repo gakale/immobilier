@@ -29,5 +29,16 @@ class Property extends Model
         return $this->belongsTo(property_Type::class);
     }
 
+    public function contracts()
+    {
+        return $this->hasMany(Contract::class);
+    }
+
+    public function tenants()
+    {
+
+        return $this->hasMany(Tenant::class);
+    }
+
 
 }
