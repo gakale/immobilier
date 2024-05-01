@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use Dotunj\LaraTwilio\Facades\LaraTwilio;
 
 use function Pest\Laravel\json;
 
@@ -206,9 +207,9 @@ class TenantController extends Controller
         $montant = $data['data']['invoice']['total_amount'];
 
         $reference = $data['data']['invoice']['token'];
-        
+
         $property= $data['data']['custom_data']['property_id'];
-        
+
         $dateDay = Carbon::now();
         $datePaidThrough = $dateDay->addMonths($month); // Ajoute le nombre de mois à la date d'aujourd'hui
         $payment = new Payment([
@@ -224,7 +225,7 @@ class TenantController extends Controller
             'paid_through'=> $datePaidThrough, // Utilise la date avec les mois ajoutés
         ]);
         $payment->save();
-        
+
         Log::info('Payment verified and contract updated', [
             'tenant_id' => $tenant,
         ]);
@@ -232,7 +233,7 @@ class TenantController extends Controller
             $contract = Contract::where('tenant_id', $tenant)->first();
             $contract->end_date = Carbon::parse($contract->end_date)->addMonths($month);
             $contract->save();
-        
+
         // Vérifier si le paiement a été effectué avec succès
             Log::info('contract update',[
                 'contract' => $contract,
@@ -254,9 +255,10 @@ class TenantController extends Controller
     }
 
 
-
-
-
+    public function sendSms($to, $message)
+    {
+        return LaraTwilio::notify($to, $message);
+    }
 
 
 
