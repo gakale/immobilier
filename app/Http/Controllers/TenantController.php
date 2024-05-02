@@ -163,9 +163,9 @@ class TenantController extends Controller
 
             ],
             'actions' => [
-                'cancel_url' => 'https://f38f-41-66-29-126.ngrok-free.app/cancel',
-                "return_url" => 'https://f38f-41-66-29-126.ngrok-free.app/paydunya/webhook',
-                "callback_url" => 'https://f38f-41-66-29-126.ngrok-free.app/verify-payment',
+                'cancel_url' => 'https://xxf3xaf0070b.share.zrok.io/cancel',
+                "return_url" => 'https://xxf3xaf0070b.share.zrok.io/paydunya/webhook',
+                "callback_url" => 'https://xxf3xaf0070b.share.zrok.io//verify-payment',
             ]
         ]);
         if ($response->successful()) {
