@@ -165,7 +165,7 @@ class TenantController extends Controller
             'actions' => [
                 'cancel_url' => 'https://xxf3xaf0070b.share.zrok.io/cancel',
                 "return_url" => 'https://xxf3xaf0070b.share.zrok.io/paydunya/webhook',
-                "callback_url" => 'https://xxf3xaf0070b.share.zrok.io//verify-payment',
+                "callback_url" => 'https://xxf3xaf0070b.share.zrok.io/verify-payment',
             ]
         ]);
         if ($response->successful()) {
@@ -244,8 +244,8 @@ class TenantController extends Controller
     {
         // Vérifier le hash de la réponse
 
-        // Retourner une vue indiquant que le paiement a été effectué avec succès
-        return json_encode(['status','payement succes']);
+        // retourné une réponse à PayDunya json pour dit que le paiement a été reçu
+        return json_encode(['status' => 'Payment received']);
     }
 
     public function cancel(Request $request)

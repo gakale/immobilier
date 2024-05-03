@@ -36,6 +36,6 @@ Route::post('/verify-payment', [TenantController::class, 'verifyPayment'])->name
     );
   Route::get('/verify-payment', [TenantController::class, 'verifyPayment']);
 
-  Route::get('/paydunya/webhook', [App\Http\Controllers\PaymentController::class, 'handlePaymentResponse'])->name('payment.callback');
+  Route::get('/paydunya/webhook', [TenantController::class, 'handlePaymentResponse'])->name('payment.callback');
 
-  Route::get('/cancel', [App\Http\Controllers\PaymentController::class, 'cancel'])->name('payement.cancel');
+  Route::get('/cancel', [App\Http\Controllers\TenantController::class, 'cancel'])->name('payement.cancel');
